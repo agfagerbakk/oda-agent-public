@@ -1,0 +1,20 @@
+node_modules
+dist
+.env
+.env.local
+.git
+.github
+*.log
+.mcp-oda
+data
+# Note: tests/ IS in the build context (build stage needs tests/fixtures for
+# scripts/experiment.ts) but is never COPY'd into the runtime image.
+vitest.config.ts
+tsconfig.test.json
+README.md
+oda-agent.yml
+EXPERIMENT-REPORT.md
+VISION-REPORT.md
+docs
+dist-scripts
+experiment-results.jsonl

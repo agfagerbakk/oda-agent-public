@@ -1,0 +1,24 @@
+# Local self-host: Telegram bot (long-polling, no ports).
+# Usage:
+#   cp .env.example .env   # fill in values
+#   docker compose up --build
+services:
+  oda-agent:
+    build: .
+    # Secrets via env file for local runs (Swarm uses /run/secrets instead —
+    # see oda-agent.yml; src/config.ts supports both).
+    env_file:
+      - .env
+    environment:
+      # Cookie session + SQLite live here; mount a named volume so redeploys
+      # keep the Oda login and learned basics.
+      MCP_ODA_DATA_DIR: /data/.mcp-oda
+    volumes:
+      - oda-session:/data
+      # preferences.json is baked into the image at build time; mount to
+      # override without rebuilding:
+      # - ./preferences.json:/app/preferences.json:ro
+    restart: unless-stopped
+
+volumes:
+  oda-session:

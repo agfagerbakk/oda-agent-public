@@ -1,0 +1,39 @@
+{
+  "name": "oda-agent",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Telegram bot that fills an Oda.com grocery cart via the OpenAI SDK + mcp-oda",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "build:scripts": "tsc -p tsconfig.scripts.json",
+    "start": "node dist/index.js",
+    "dev": "tsx watch src/index.ts",
+    "agent:once": "tsx scripts/run-once.ts",
+    "typecheck": "tsc --noEmit",
+    "typecheck:test": "tsc --noEmit -p tsconfig.test.json",
+    "typecheck:scripts": "tsc --noEmit -p tsconfig.scripts.json",
+    "test": "vitest run tests/unit",
+    "test:unit": "vitest run tests/unit",
+    "test:all": "vitest run tests/unit && vitest run tests/e2e",
+    "test:e2e": "vitest run tests/e2e",
+    "test:e2e:watch": "vitest tests/e2e"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.0",
+    "better-sqlite3": "^11.8.0",
+    "dotenv": "^16.4.5",
+    "grammy": "^1.30.0",
+    "mcp-oda": "git+https://github.com/agfagerbakk/mcp-oda.git#5203bc0432a8f2de2f6b451d6bfab560e14936b7",
+    "openai": "^7.27.0",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.11",
+    "@types/node": "^22.10.0",
+    "tsx": "^4.21.0",
+    "typescript": "^5.7.0",
+    "vitest": "^2.1.9"
+  }
+}

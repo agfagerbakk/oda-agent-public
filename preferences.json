@@ -1,0 +1,8 @@
+{
+  "_comment": "Map a generic grocery term to the exact Oda product you usually want. The agent prefers these when picking items. Edit freely or use the /pref command in Telegram.",
+  "preferences": {
+    "melk": "TINE Lettmelk 1L",
+    "brød": "Grovbrød",
+    "egg": "Egg Frittgående 12stk"
+  }
+}

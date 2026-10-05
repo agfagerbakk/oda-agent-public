@@ -1,0 +1,59 @@
+version: "3.9"
+# Deploy: copy this file into ~/projects/services on the manager node and run
+#   docker stack deploy -c oda-agent.yml oda-agent
+# Thereafter GitHub Actions updates the service on pushes to main.
+#
+# This is a WORKER: the Telegram bot uses long-polling (outbound only), so it
+# needs no Traefik labels, no published ports, and no domain.
+networks:
+  traefik-swarm:
+    external: true
+
+services:
+  oda-agent:
+    image: ghcr.io/agfagerbakk/oda-agent:main
+    networks:
+      - traefik-swarm # for outbound internet access
+    environment:
+      # Provider = OpenAI for ALL LLM calls (shopping loop, vision, seeder).
+      # Model names default in config.ts.
+      - ODA_AGENT_MODEL=gpt-4.1-mini
+    secrets:
+      - OPENAI_API_KEY
+      - TELEGRAM_BOT_TOKEN
+      - ODA_USER
+      - ODA_PASS
+      - ALLOWED_TELEGRAM_USER_ID
+    volumes:
+      - oda-session:/data # persists the mcp-oda cookie session across redeploys
+    deploy:
+      mode: replicated
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 10s
+        order: stop-first # single-instance bot: avoid two long-pollers at once
+        failure_action: rollback
+      placement:
+        constraints:
+          - node.role == manager
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+
+volumes:
+  oda-session:
+
+secrets:
+  OPENAI_API_KEY:
+    external: true
+  TELEGRAM_BOT_TOKEN:
+    external: true
+  ODA_USER:
+    external: true
+  ODA_PASS:
+    external: true
+  ALLOWED_TELEGRAM_USER_ID:
+    external: true
