@@ -129,9 +129,8 @@ authenticated Oda session from the mcp-oda cookie store.
 
 ## Deployment (Docker Swarm on the manager node)
 
-CI (`.github/workflows/build-push.yml`) builds and pushes `ghcr.io/agfagerbakk/oda-agent` on
-every branch and, on `main`, updates the swarm service via the self-hosted `swarm-manager`
-runner.
+CI (`.github/workflows/build-push.yml`) builds and pushes `ghcr.io/agfagerbakk/oda-agent-public`
+on every branch (plus typechecks and unit tests on every push and PR).
 
 First-time setup on the node:
 

@@ -11,7 +11,7 @@ networks:
 
 services:
   oda-agent:
-    image: ghcr.io/agfagerbakk/oda-agent:main
+    image: ghcr.io/agfagerbakk/oda-agent-public:main
     networks:
       - traefik-swarm # for outbound internet access
     environment:
